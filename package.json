@@ -1,0 +1,46 @@
+{
+  "author": {
+    "name": "Hasan Karahan",
+    "email": "hasan.karahan@blackhan.com",
+    "url": "https://github.com/hsk81"
+  },
+  "dependencies": {},
+  "description": "call stack tracer",
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.9.4",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "chai": "^4.1.2",
+    "coveralls": "^3.0.2",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1",
+    "yargs": "^12.0.1"
+  },
+  "files": [
+    "dist/lib"
+  ],
+  "keywords": [
+    "library",
+    "module"
+  ],
+  "license": "ISC",
+  "main": "dist/lib/index.js",
+  "name": "@dizmo/functions-trace",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "build": "node ./cli/run-build.js",
+    "cover": "node ./cli/run-test.js --cover",
+    "lint": "node ./cli/run-lint.js",
+    "test": "node ./cli/run-test.js"
+  },
+  "types": "dist/lib/index.d.ts",
+  "version": "1.0.0"
+}
