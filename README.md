@@ -35,6 +35,8 @@ class MyClass {
 ```
 ```typescript
 import { Global } from '@dizmo/functions-trace';
+```
+```typescript
 declare const global: Global;
 global.TRACE = true; // or e.g. `200` milli-seconds
 ```
