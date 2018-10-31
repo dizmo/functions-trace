@@ -25,10 +25,6 @@ describe("traceable", () => {
     });
 });
 
-describe("trace", () => {
-    /** TODO: fix the @trace decorator! */
-});
-
 describe("traceable", () => {
     before(() => {
         global.TRACE = true;

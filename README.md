@@ -3,9 +3,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/dizmo/functions-trace/badge.svg?branch=master)](https://coveralls.io/github/dizmo/functions-trace?branch=master)
 
 # @dizmo/functions-trace
-Provides a `@traceable` decorator, which traces each method invocation (of a class) to a global `CONSOLE` object, which is by default set to the standard `console`.
+Provides a `@trace` decorator, which traces each method invocation for all methods of a class via a global `CONSOLE` object, which is by default directs to the standard `console`. Further, a `@traceable` decorator is provided, which can selective enable (or disable) the tracing of a particular class method.
 
-However, the tracing is *only* performed when the global `TRACE` variable is set to `true`. It is also possible to set `TRACE` to a number, in which case the tracing is deferred by the corresponding amount of milli-seconds. Also, setting it to `0` will imply, that the invocations will be logged as soon as possible.
+Tracing is *only* performed, when the global `TRACE` variable is set to `true`. It is also possible to set `TRACE` to a number, in which case the tracing is deferred by the corresponding amount of milli-seconds. Also, setting it to `0` will imply, that the invocations will be logged as soon as possible - however still asynchronously.
 
 ## Usage
 ### Install
@@ -18,17 +18,18 @@ let lib = require('@dizmo/functions-trace');
 ```
 ### Examples
 ```typescript
-import { traceable } from '@dizmo/functions-trace';
+import { trace, traceable } from '@dizmo/functions-trace';
 ```
 ```typescript
+@trace /* or: @trace(true|false) */
 class MyClass {
 
-    @traceable
+    // @traceable
     public method_1() {}
-    
-    @traceable(true)
+
+    // @traceable(true)
     public method_2() {}
-    
+
     @traceable(false)
     public method_3() {}
 }

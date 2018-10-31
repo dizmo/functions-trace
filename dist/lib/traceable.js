@@ -17,19 +17,20 @@ exports.traceable = traceable;
 function _traceable(flag) {
     return function (target, key, dtor) {
         var wrap = function wrap(fn, callback) {
+            var gn = fn;
             if (!flag) {
-                fn["_traced"] = false;
+                gn._traced = false;
             } else {
-                if (fn["_traced"] === undefined) {
-                    fn["_traced"] = true;
+                if (gn._traced === undefined) {
+                    gn._traced = true;
                     var tn = function tn() {
                         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
                             args[_key] = arguments[_key];
                         }
 
-                        var T = global["TRACE"];
-                        if (T !== false && T) {
-                            var _console = global["CONSOLE"] ? global["CONSOLE"] : console;
+                        var trace = global.TRACE;
+                        if (trace !== false && trace) {
+                            var _console = global.CONSOLE ? global.CONSOLE : console;
                             var name = target.constructor && target.constructor.name || "@";
                             setTimeout(function () {
                                 _console.group(name + "." + key);
@@ -39,19 +40,19 @@ function _traceable(flag) {
                                 if (result !== undefined) {
                                     _console.debug(result);
                                 }
-                            }, T || 0);
-                            var result = fn.apply(this, args);
+                            }, global.TRACE || 0);
+                            var result = gn.apply(this, args);
                             setTimeout(function () {
                                 _console.groupEnd();
-                            }, T || 0);
+                            }, global.TRACE || 0);
                             return result;
                         } else {
-                            return fn.apply(this, args);
+                            return gn.apply(this, args);
                         }
                     };
-                    for (var el in fn) {
-                        if (fn.hasOwnProperty(el)) {
-                            tn[el] = fn[el];
+                    for (var el in gn) {
+                        if (gn.hasOwnProperty(el)) {
+                            tn[el] = gn[el];
                         }
                     }
                     callback(tn);

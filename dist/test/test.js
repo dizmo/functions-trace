@@ -38,9 +38,6 @@ describe("traceable", function () {
         chai_1.expect(index_2.traceable).to.be.a("function");
     });
 });
-describe("trace", function () {
-    /** TODO: fix the @trace decorator! */
-});
 describe("traceable", function () {
     before(function () {
         global.TRACE = true;

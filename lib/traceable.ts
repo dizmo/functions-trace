@@ -21,6 +21,10 @@ export function traceable(
     }
 }
 
+interface ITracedFunction extends Function {
+    _traced: Boolean;
+}
+
 function _traceable(
     flag: boolean,
 ): Function {
@@ -30,25 +34,25 @@ function _traceable(
         const wrap = (
             fn: Function, callback: Function,
         ) => {
+            const gn = fn as ITracedFunction;
             if (!flag) {
-                (fn as any)["_traced"] = false;
+                gn._traced = false;
             } else {
-                if ((fn as any)["_traced"] === undefined) {
-                    (fn as any)["_traced"] = true;
+                if (gn._traced === undefined) {
+                    gn._traced = true;
 
                     const tn: Function = function(
                         this: any, ...args: any[]
                     ) {
-                        const T = global["TRACE"];
-                        if (T !== false && T) {
-                            const _console = global["CONSOLE"]
-                                ? global["CONSOLE"] as Console
+                        const trace = global.TRACE;
+                        if (trace !== false && trace) {
+                            const _console = global.CONSOLE
+                                ? global.CONSOLE as Console
                                 : console;
 
                             const name =
                                 target.constructor &&
                                 target.constructor.name || "@";
-
                             setTimeout(() => {
                                 _console.group(`${name}.${key}`);
                                 if (args.length > 0) {
@@ -57,22 +61,21 @@ function _traceable(
                                 if (result !== undefined) {
                                     _console.debug(result);
                                 }
-                            }, T || 0);
+                            }, global.TRACE as any || 0);
 
-                            const result = fn.apply(this, args);
-
+                            const result = gn.apply(this, args);
                             setTimeout(() => {
                                 _console.groupEnd();
-                            }, T || 0);
+                            }, global.TRACE as any || 0);
 
                             return result;
                         } else {
-                            return fn.apply(this, args);
+                            return gn.apply(this, args);
                         }
                     };
-                    for (const el in fn) {
-                        if (fn.hasOwnProperty(el)) {
-                            (tn as any)[el] = (fn as any)[el];
+                    for (const el in gn) {
+                        if (gn.hasOwnProperty(el)) {
+                            (tn as any)[el] = (gn as any)[el];
                         }
                     }
                     callback(tn);
