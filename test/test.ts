@@ -4,7 +4,7 @@ import { traceable } from "../lib/index";
 
 import "mocha";
 
-import { Global } from "../lib/index";
+import { Global } from "../lib/global";
 declare const global: Global;
 
 describe("trace", () => {
