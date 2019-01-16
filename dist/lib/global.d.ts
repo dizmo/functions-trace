@@ -1,6 +1,4 @@
-/// <reference types="mocha" />
-/// <reference types="node" />
-export interface Global extends NodeJS.Global {
+export interface Global extends Window {
     [property: string]: any;
 }
 export default Global;

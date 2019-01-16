@@ -1,6 +1,6 @@
 /* tslint:disable:interface-name */
 
-export interface Global extends NodeJS.Global {
+export interface Global extends Window {
     [property: string]: any;
 }
 

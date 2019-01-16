@@ -4,13 +4,11 @@
     "email": "hkarahan@dizmo.com",
     "url": "https://github.com/hsk81"
   },
-  "dependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^10.12.18"
-  },
+  "dependencies": {},
   "description": "call stack tracer",
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
