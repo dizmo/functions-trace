@@ -19,20 +19,20 @@ export function trace(
 
 function _trace(flag: boolean): Function {
     return function (ctor: Function) {
-        Object.keys(ctor.prototype).forEach((key: string) => {
+        Object.getOwnPropertyNames(ctor.prototype).forEach((name: string) => {
             const dtor = Object.getOwnPropertyDescriptor(
-                ctor.prototype, key,
+                ctor.prototype, name,
             );
             if (dtor && typeof dtor.value === "function") {
-                _traceable(flag)(ctor.prototype, key);
+                _traceable(flag)(ctor.prototype, name);
             }
         });
-        Object.keys(ctor).forEach((key: string) => {
+        Object.getOwnPropertyNames(ctor).forEach((name: string) => {
             const dtor = Object.getOwnPropertyDescriptor(
-                ctor, key,
+                ctor, name,
             );
             if (dtor && typeof dtor.value === "function") {
-                _traceable(flag)(ctor, key);
+                _traceable(flag)(ctor, name);
             }
         });
     };

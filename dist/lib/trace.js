@@ -15,16 +15,16 @@ function trace(arg) {
 exports.trace = trace;
 function _trace(flag) {
     return function (ctor) {
-        Object.keys(ctor.prototype).forEach(function (key) {
-            var dtor = Object.getOwnPropertyDescriptor(ctor.prototype, key);
+        Object.getOwnPropertyNames(ctor.prototype).forEach(function (name) {
+            var dtor = Object.getOwnPropertyDescriptor(ctor.prototype, name);
             if (dtor && typeof dtor.value === "function") {
-                traceable_1.traceable(flag)(ctor.prototype, key);
+                traceable_1.traceable(flag)(ctor.prototype, name);
             }
         });
-        Object.keys(ctor).forEach(function (key) {
-            var dtor = Object.getOwnPropertyDescriptor(ctor, key);
+        Object.getOwnPropertyNames(ctor).forEach(function (name) {
+            var dtor = Object.getOwnPropertyDescriptor(ctor, name);
             if (dtor && typeof dtor.value === "function") {
-                traceable_1.traceable(flag)(ctor, key);
+                traceable_1.traceable(flag)(ctor, name);
             }
         });
     };
