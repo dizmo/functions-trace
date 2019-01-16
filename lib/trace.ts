@@ -1,8 +1,9 @@
 /* tslint:disable:ban-types */
 /* tslint:disable:only-arrow-functions */
 /* tslint:disable:space-before-function-paren */
+/* tslint:disable:trailing-comma */
 
-import { traceable as _traceable } from "./traceable";
+import { _traceable } from "./traceable";
 
 export function trace(
     flag: boolean): Function;
@@ -17,22 +18,22 @@ export function trace(
     }
 }
 
-function _trace(flag: boolean): Function {
+export function _trace(flag: boolean): Function {
     return function (ctor: Function) {
         Object.getOwnPropertyNames(ctor.prototype).forEach((name: string) => {
             const dtor = Object.getOwnPropertyDescriptor(
-                ctor.prototype, name,
+                ctor.prototype, name
             );
             if (dtor && typeof dtor.value === "function") {
-                _traceable(flag)(ctor.prototype, name);
+                _traceable(flag, ctor.name)(ctor.prototype, name);
             }
         });
         Object.getOwnPropertyNames(ctor).forEach((name: string) => {
             const dtor = Object.getOwnPropertyDescriptor(
-                ctor, name,
+                ctor, name
             );
             if (dtor && typeof dtor.value === "function") {
-                _traceable(flag)(ctor, name);
+                _traceable(flag, ctor.name)(ctor, name);
             }
         });
     };

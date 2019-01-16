@@ -22,11 +22,11 @@ export function traceable(
 }
 
 interface ITracedFunction extends Function {
-    _traced: Boolean;
+    __traced__?: string | null;
 }
 
-function _traceable(
-    flag: boolean,
+export function _traceable(
+    flag: boolean, name?: string
 ): Function {
     return function(
         target: any, key: string, dtor?: PropertyDescriptor,
@@ -36,11 +36,22 @@ function _traceable(
         ) => {
             const gn = fn as ITracedFunction;
             if (!flag) {
-                gn._traced = false;
+                gn.__traced__ = null;
             } else {
-                if (gn._traced === undefined) {
-                    gn._traced = true;
-
+                if (gn.__traced__ === undefined) {
+                    if (name !== undefined) {
+                        gn.__traced__ = name;
+                    } else {
+                        if (target.constructor &&
+                            target.constructor.name !== undefined
+                        ) {
+                            gn.__traced__ = target.constructor.name;
+                        } else if (target.name !== undefined) {
+                            gn.__traced__ = target.name;
+                        } else {
+                            gn.__traced__ = "@";
+                        }
+                    }
                     const tn: Function = function(
                         this: any, ...args: any[]
                     ) {
@@ -50,11 +61,8 @@ function _traceable(
                                 ? global.CONSOLE as Console
                                 : console;
 
-                            const name =
-                                target.constructor &&
-                                target.constructor.name || "@";
                             setTimeout(() => {
-                                _console.group(`${name}.${key}`);
+                                _console.group(`${gn.__traced__}.${key}`);
                                 if (args.length > 0) {
                                     _console.debug(...args);
                                 }
@@ -64,6 +72,7 @@ function _traceable(
                             }, global.TRACE as any || 0);
 
                             const result = gn.apply(this, args);
+
                             setTimeout(() => {
                                 _console.groupEnd();
                             }, global.TRACE as any || 0);

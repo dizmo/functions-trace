@@ -14,15 +14,25 @@ function traceable(arg, key, dtor) {
     }
 }
 exports.traceable = traceable;
-function _traceable(flag) {
+function _traceable(flag, name) {
     return function (target, key, dtor) {
         var wrap = function wrap(fn, callback) {
             var gn = fn;
             if (!flag) {
-                gn._traced = false;
+                gn.__traced__ = null;
             } else {
-                if (gn._traced === undefined) {
-                    gn._traced = true;
+                if (gn.__traced__ === undefined) {
+                    if (name !== undefined) {
+                        gn.__traced__ = name;
+                    } else {
+                        if (target.constructor && target.constructor.name !== undefined) {
+                            gn.__traced__ = target.constructor.name;
+                        } else if (target.name !== undefined) {
+                            gn.__traced__ = target.name;
+                        } else {
+                            gn.__traced__ = "@";
+                        }
+                    }
                     var tn = function tn() {
                         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
                             args[_key] = arguments[_key];
@@ -31,9 +41,8 @@ function _traceable(flag) {
                         var trace = global.TRACE;
                         if (trace !== false && trace) {
                             var _console = global.CONSOLE ? global.CONSOLE : console;
-                            var name = target.constructor && target.constructor.name || "@";
                             setTimeout(function () {
-                                _console.group(name + "." + key);
+                                _console.group(gn.__traced__ + "." + key);
                                 if (args.length > 0) {
                                     _console.debug.apply(_console, args);
                                 }
@@ -83,5 +92,6 @@ function _traceable(flag) {
         }
     };
 }
+exports._traceable = _traceable;
 exports.default = traceable;
 //# sourceMappingURL=traceable.js.map
