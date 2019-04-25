@@ -38,20 +38,19 @@ function _traceable(flag, name) {
                             args[_key] = arguments[_key];
                         }
 
-                        var trace = global.TRACE;
-                        if (trace !== false && trace) {
+                        if (global.TRACE) {
                             var _console = global.CONSOLE ? global.CONSOLE : console;
+                            var t0 = new Date();
+                            var result = gn.apply(this, args);
+                            var dt = new Date() - t0;
                             setTimeout(function () {
-                                _console.group(gn.__traced__ + "." + key);
+                                _console.group(gn.__traced__ + "." + key, "[", dt, "ms", "]");
                                 if (args.length > 0) {
                                     _console.debug.apply(_console, args);
                                 }
                                 if (result !== undefined) {
                                     _console.debug(result);
                                 }
-                            }, global.TRACE || 0);
-                            var result = gn.apply(this, args);
-                            setTimeout(function () {
                                 _console.groupEnd();
                             }, global.TRACE || 0);
                             return result;

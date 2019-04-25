@@ -4,9 +4,9 @@
 
 # @dizmo/functions-trace
 
-Provides a `@trace` decorator, which traces each method invocation for all methods of a class via a global `CONSOLE` object, which is by default directs to the standard `console`. Further, a `@traceable` decorator is provided, which can selective enable (or disable) the tracing of a particular class method.
+Provides a `@trace` decorator, which traces each method invocation for all methods of a class via a global `CONSOLE` object, which is by default is the standard `console`. Further, a `@traceable` decorator is provided, which can selective enable (or disable) the tracing of a particular class method.
 
-Tracing is *only* performed, when the global `TRACE` variable is set to `true`. It is also possible to set `TRACE` to a number, in which case the tracing is deferred by the corresponding amount of milli-seconds. Also, setting it to `0` will imply, that the invocations will be logged as soon as possible - however still asynchronously.
+Tracing is applied *only*, when the global `TRACE` variable is set to `true`. It is also possible to set `TRACE` to a number, in which case tracing is deferred by the corresponding amount of milliseconds. Also, setting it to `0` will imply, that the invocations will be logged as soon as possible - however still asynchronously.
 
 ## Usage
 
@@ -49,7 +49,7 @@ import { Global } from '@dizmo/functions-trace';
 
 ```typescript
 declare const global: Global;
-global.TRACE = true; // or e.g. `200` milli-seconds
+global.TRACE = true; // or e.g. `200` milliseconds
 ```
 
 ## Development

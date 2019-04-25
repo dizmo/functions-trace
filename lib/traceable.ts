@@ -55,25 +55,26 @@ export function _traceable(
                     const tn: Function = function(
                         this: any, ...args: any[]
                     ) {
-                        const trace = global.TRACE;
-                        if (trace !== false && trace) {
+                        if (global.TRACE) {
                             const _console = global.CONSOLE
                                 ? global.CONSOLE as Console
                                 : console;
 
+                            const t0 = new Date() as any;
+                            const result = gn.apply(this, args);
+                            const dt = new Date() as any - t0;
+
                             setTimeout(() => {
-                                _console.group(`${gn.__traced__}.${key}`);
+                                _console.group(
+                                    `${gn.__traced__}.${key}`,
+                                    "[", dt, "ms", "]"
+                                );
                                 if (args.length > 0) {
                                     _console.debug(...args);
                                 }
                                 if (result !== undefined) {
                                     _console.debug(result);
                                 }
-                            }, global.TRACE as any || 0);
-
-                            const result = gn.apply(this, args);
-
-                            setTimeout(() => {
                                 _console.groupEnd();
                             }, global.TRACE as any || 0);
 

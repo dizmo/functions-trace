@@ -16,18 +16,20 @@ function trace(arg) {
 exports.trace = trace;
 function _trace(flag) {
     return function (ctor) {
-        Object.getOwnPropertyNames(ctor.prototype).forEach(function (name) {
-            var dtor = Object.getOwnPropertyDescriptor(ctor.prototype, name);
-            if (dtor && typeof dtor.value === "function") {
-                traceable_1._traceable(flag, ctor.name)(ctor.prototype, name);
-            }
-        });
-        Object.getOwnPropertyNames(ctor).forEach(function (name) {
-            var dtor = Object.getOwnPropertyDescriptor(ctor, name);
-            if (dtor && typeof dtor.value === "function") {
-                traceable_1._traceable(flag, ctor.name)(ctor, name);
-            }
-        });
+        if (flag && global.TRACE) {
+            Object.getOwnPropertyNames(ctor.prototype).forEach(function (name) {
+                var dtor = Object.getOwnPropertyDescriptor(ctor.prototype, name);
+                if (dtor && typeof dtor.value === "function") {
+                    traceable_1._traceable(flag, ctor.name)(ctor.prototype, name);
+                }
+            });
+            Object.getOwnPropertyNames(ctor).forEach(function (name) {
+                var dtor = Object.getOwnPropertyDescriptor(ctor, name);
+                if (dtor && typeof dtor.value === "function") {
+                    traceable_1._traceable(flag, ctor.name)(ctor, name);
+                }
+            });
+        }
     };
 }
 exports._trace = _trace;

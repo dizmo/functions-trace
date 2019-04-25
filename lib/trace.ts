@@ -3,6 +3,9 @@
 /* tslint:disable:space-before-function-paren */
 /* tslint:disable:trailing-comma */
 
+import { Global } from "./global";
+declare const global: Global;
+
 import { _traceable } from "./traceable";
 
 export function trace(
@@ -20,22 +23,24 @@ export function trace(
 
 export function _trace(flag: boolean): Function {
     return function (ctor: Function) {
-        Object.getOwnPropertyNames(ctor.prototype).forEach((name: string) => {
-            const dtor = Object.getOwnPropertyDescriptor(
-                ctor.prototype, name
-            );
-            if (dtor && typeof dtor.value === "function") {
-                _traceable(flag, ctor.name)(ctor.prototype, name);
-            }
-        });
-        Object.getOwnPropertyNames(ctor).forEach((name: string) => {
-            const dtor = Object.getOwnPropertyDescriptor(
-                ctor, name
-            );
-            if (dtor && typeof dtor.value === "function") {
-                _traceable(flag, ctor.name)(ctor, name);
-            }
-        });
+        if (flag && global.TRACE) {
+            Object.getOwnPropertyNames(ctor.prototype).forEach((name: string) => {
+                const dtor = Object.getOwnPropertyDescriptor(
+                    ctor.prototype, name
+                );
+                if (dtor && typeof dtor.value === "function") {
+                    _traceable(flag, ctor.name)(ctor.prototype, name);
+                }
+            });
+            Object.getOwnPropertyNames(ctor).forEach((name: string) => {
+                const dtor = Object.getOwnPropertyDescriptor(
+                    ctor, name
+                );
+                if (dtor && typeof dtor.value === "function") {
+                    _traceable(flag, ctor.name)(ctor, name);
+                }
+            });
+        }
     };
 }
 
