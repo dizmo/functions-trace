@@ -2,20 +2,15 @@ const { arg, npm, npx } = require('./run-utils');
 const { exit } = require('process');
 
 const prepare = () => (
-    arg('minify')(true) ? [browserify, terser] : [browserify]
+    arg('minify')(true) ? [umd, min] : [umd]
 ).reduce(
     (p, fn) => p.then(fn), Promise.resolve()
 );
-const browserify = () => npx('browserify', 'dist/lib/index.js',
-    '--debug', '--standalone', 'dizmo-functions-trace',
-    '|', 'exorcist', 'dist/lib/index.umd.js.map',
-    '>', 'dist/lib/index.umd.js'
+const umd = () => npx('webpack',
+    '--mode', 'development', '--output', 'dist/lib/index.umd.js', '--silent'
 );
-const terser = () => npx('terser', 'dist/lib/index.umd.js',
-    '--compress', '--mangle', '--module',
-    '--output', 'dist/lib/index.min.js',
-    '--source-map', 'content="dist/lib/index.umd.js.map"',
-    '--source-map', 'url="index.min.js.map"'
+const min = () => npx('webpack',
+    '--mode', 'production', '--output', 'dist/lib/index.min.js', '--silent'
 );
 if (require.main === module) {
     npm('install').then(prepare).catch(exit);

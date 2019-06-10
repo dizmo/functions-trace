@@ -1,0 +1,12 @@
+{
+    "disableOutputCheck": true,
+    "excludeNotExported": false,
+    "excludePrivate": false,
+    "excludeProtected": false,
+    "hideGenerator": true,
+    "listInvalidSymbolLinks": true,
+    "mode": "modules",
+    "out": "docs",
+    "readme": null,
+    "theme": "default"
+}

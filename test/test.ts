@@ -1,10 +1,20 @@
 import { expect } from "chai";
+import { trace } from "../lib/index";
 import { traceable } from "../lib/index";
 
 import "mocha";
 
 import { Global } from "../lib/global";
 declare const global: Global;
+
+describe("trace", () => {
+    it("should exist", () => {
+        expect(trace).to.not.be.an("undefined");
+    });
+    it("should be a function", () => {
+        expect(trace).to.be.a("function");
+    });
+});
 
 describe("traceable", () => {
     it("should exist", () => {
@@ -14,49 +24,40 @@ describe("traceable", () => {
         expect(traceable).to.be.a("function");
     });
 });
+
 describe("traceable", () => {
-    let QClass: any;
-    const TracedQ = () => {
-        class Q {
-            private args: any[];
-            constructor(...args: any[]) {
-                this.args = args;
-            }
-            @traceable(true)
-            public add1(...args: any[]): any[] {
-                return this.args.concat(args);
-            }
-            @traceable(false)
-            public add2(...args: any[]): any[] {
-                return this.args.concat(args);
-            }
-        }
-        return Q;
-    };
     before(() => {
         global.TRACE = true;
     });
     after(() => {
         delete global.TRACE;
     });
-    beforeEach(() => {
-        QClass = TracedQ();
-    });
     afterEach(() => {
         delete global.CONSOLE;
     });
+
+    class Q {
+        private args: any[];
+        constructor(...args: any[]) {
+            this.args = args;
+        }
+        @traceable
+        public add1(...args: any[]): any[] {
+            return this.args.concat(args);
+        }
+        @traceable(true)
+        public add2(...args: any[]): any[] {
+            return this.args.concat(args);
+        }
+    }
+
     it("should decorate Q.add1", () => {
-        expect(QClass.prototype.add1).to.be.a("function");
+        expect(Q.prototype.add1).to.be.a("function");
     });
     it("should log Q('a').add('b', 'c') ", () => {
         global.CONSOLE = {
-            group(fqn: string, ...args: any[]) {
+            group(fqn: string) {
                 expect(fqn).to.eq("Q.add1");
-                expect(args.length > 0);
-                expect(args[0]).to.eq("[");
-                expect(args[1]).to.be.a("number");
-                expect(args[2]).to.eq("ms");
-                expect(args[3]).to.eq("]");
             },
             debug(...args: any[]) {
                 if (this.debug_n === this.debug_0) {
@@ -81,23 +82,43 @@ describe("traceable", () => {
                 expect(args.length).to.eq(0);
             },
         };
-        expect(new QClass("a").add1("b", "c")).to.have.members([
+        expect(new Q("a").add1("b", "c")).to.have.members([
             "a", "b", "c",
         ]);
     });
+
     it("should decorate Q.add2", () => {
-        expect(QClass.prototype.add2).to.be.a("function");
+        expect(Q.prototype.add2).to.be.a("function");
     });
     it("should log Q('x').add('y', 'z')", () => {
         global.CONSOLE = {
-            group() {
-                expect(true).to.eq(false);
+            group(fqn: string) {
+                expect(fqn).to.eq("Q.add2");
             },
-            groupEnd() {
-                expect(true).to.eq(false);
+            debug(...args: any[]) {
+                if (this.debug_n === this.debug_0) {
+                    this.debug_n = this.debug_1;
+                }
+                if (this.debug_n === undefined) {
+                    this.debug_n = this.debug_0;
+                }
+                this.debug_n(...args);
+            },
+            debug_0(y: string, z: string) {
+                expect(y).to.eq("y");
+                expect(z).to.eq("z");
+            },
+            debug_1(result: any) {
+                expect(result.length).to.eq(3);
+                expect(result).to.have.members([
+                    "x", "y", "z",
+                ]);
+            },
+            groupEnd(...args: any[]) {
+                expect(args.length).to.eq(0);
             },
         };
-        expect(new QClass("x").add2("y", "z")).to.have.members([
+        expect(new Q("x").add2("y", "z")).to.have.members([
             "x", "y", "z",
         ]);
     });

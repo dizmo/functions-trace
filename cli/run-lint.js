@@ -1,8 +1,7 @@
 const { arg, npm, npx } = require('./run-utils');
 const { exit } = require('process');
 
-const lint = () => npx('tslint',
-    '--config', 'tslint.json', '--format', 'stylish',
+const lint = () => npx('eslint', '--config', '.eslintrc.json',
     '"lib/**/*.ts"', '"test/**/*.ts"', arg('fix', '--fix')(false)
 );
 if (require.main === module) {
