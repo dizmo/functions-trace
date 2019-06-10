@@ -29,4 +29,4 @@ const clean = async (
 if (require.main === module) {
     clean().catch(exit);
 }
-module.exports = () => clean();
+module.exports = clean;

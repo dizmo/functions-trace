@@ -1,8 +1,3 @@
-/* tslint:disable:ban-types */
-/* tslint:disable:only-arrow-functions */
-/* tslint:disable:space-before-function-paren */
-/* tslint:disable:trailing-comma */
-
 import { Global } from "./global";
 declare const global: Global;
 
@@ -20,7 +15,6 @@ export function trace(
         _trace(true)(arg as Function);
     }
 }
-
 export function _trace(flag: boolean): Function {
     return function (ctor: Function) {
         if (flag && global.TRACE) {
@@ -43,5 +37,4 @@ export function _trace(flag: boolean): Function {
         }
     };
 }
-
 export default trace;

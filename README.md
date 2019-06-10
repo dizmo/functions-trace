@@ -19,7 +19,7 @@ npm install @dizmo/functions-trace --save
 ### Require
 
 ```javascript
-let lib = require('@dizmo/functions-trace');
+const { trace, traceable } = require('@dizmo/functions-trace');
 ```
 
 ### Examples
@@ -120,6 +120,12 @@ npm run cover
 npm run -- cover --no-lint --no-clean --no-build
 ```
 
+## Documentation
+
+```sh
+npm run docs
+```
+
 ## Publish
 
 ```sh
@@ -134,4 +140,4 @@ npm publish --access=public
 
 ## Copyright
 
- © 2019 [dizmo AG](http://dizmo.com/), Switzerland
+ © 2020 [dizmo AG](http://dizmo.com/), Switzerland

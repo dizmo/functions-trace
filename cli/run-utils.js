@@ -13,7 +13,7 @@ const run = (command, ...args) => new Promise(
     )
 );
 const npx = (...args) =>
-    run('npx', '-q', ...args);
+    run('npx', '--quiet', ...args);
 const npm = (...args) =>
     access('node_modules').catch(() => run('npm', ...args));
 module.exports = {
