@@ -19,7 +19,7 @@ npm install @dizmo/functions-trace --save
 ### Require
 
 ```javascript
-let lib = require('@dizmo/functions-trace');
+const { trace, traceable } = require('@dizmo/functions-trace');
 ```
 
 ### Examples
