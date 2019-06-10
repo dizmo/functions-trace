@@ -13,14 +13,14 @@
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.7",
     "chai": "^4.2.0",
-    "coveralls": "^3.0.3",
+    "coveralls": "^3.0.4",
     "exorcist": "^1.0.1",
     "istanbul": "^0.4.5",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
     "tslint": "^5.17.0",
     "typescript": "^3.5.1",
-    "yargs": "^12.0.5"
+    "yargs": "^13.2.4"
   },
   "files": [
     "dist/lib"
@@ -38,6 +38,7 @@
   },
   "scripts": {
     "build": "node ./cli/run-build.js",
+    "clean": "node ./cli/run-clean.js",
     "cover": "node ./cli/run-test.js --cover",
     "lint": "node ./cli/run-lint.js",
     "prepack": "node ./cli/run-prepack.js",

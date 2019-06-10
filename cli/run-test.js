@@ -8,6 +8,7 @@ const test = () => arg('cover')(false)
 if (require.main === module) {
     let p = npm('install').then(() => {
         p = arg('lint')(true) ? p.then(require('./run-lint')) : p;
+        p = arg('clean')(true) ? p.then(require('./run-clean')) : p;
         p = arg('build')(true) ? p.then(require('./run-build')) : p;
         p.then(test).catch(exit);
     });
