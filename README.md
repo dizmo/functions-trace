@@ -1,5 +1,5 @@
 [![NPM version](https://badge.fury.io/js/%40dizmo%2Ffunctions-trace.svg)](https://npmjs.org/package/@dizmo/functions-trace)
-[![Build Status](https://travis-ci.org/dizmo/functions-trace.svg?branch=master)](https://travis-ci.org/dizmo/functions-trace)
+[![Build Status](https://travis-ci.com/dizmo/functions-trace.svg?branch=master)](https://travis-ci.com/dizmo/functions-trace)
 [![Coverage Status](https://coveralls.io/repos/github/dizmo/functions-trace/badge.svg?branch=master)](https://coveralls.io/github/dizmo/functions-trace?branch=master)
 
 # @dizmo/functions-trace
