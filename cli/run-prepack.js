@@ -7,10 +7,14 @@ const prepare = () => (
     (p, fn) => p.then(fn), Promise.resolve()
 );
 const umd = () => npx('webpack',
-    '--mode', 'development', '--output', 'dist/lib/index.umd.js', '--silent'
+    '--mode', 'development',
+    '--output-path', 'dist/lib',
+    '--output-filename', 'index.umd.js'
 );
 const min = () => npx('webpack',
-    '--mode', 'production', '--output', 'dist/lib/index.min.js', '--silent'
+    '--mode', 'production',
+    '--output-path', 'dist/lib',
+    '--output-filename', 'index.min.js'
 );
 if (require.main === module) {
     npm('install').then(prepare).catch(exit);
