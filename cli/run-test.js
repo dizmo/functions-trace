@@ -2,8 +2,8 @@ const { arg, npm, npx } = require('./run-utils');
 const { exit } = require('process');
 
 const test = () => arg('cover')(false)
-    ? npx('nyc', 'mocha', '-r', 'esm', 'dist/test', '--recursive')
-    : npx('mocha', '-r', 'esm', 'dist/test', '--recursive');
+    ? npx('nyc', 'mocha', 'dist/test', '--recursive')
+    : npx('mocha', 'dist/test', '--recursive');
 
 if (require.main === module) {
     let p = npm('install').then(() => {
